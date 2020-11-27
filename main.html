@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Realtime exchange rates</title>
+  <link rel="stylesheet" href="css/main.css"/>
+  <script src="js/myframework.js"></script>
+  <script src="js/main.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js"></script>
+</head>
+<body controller="mainCtrl">
+
+<div class="row">
+<header class="center">
+  <h1>Realtime exchange rates</h1>
+</header>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div>
+      <h3>Settings</h3>
+      <ul class="rates-rows">
+        <li>
+          <div class="col-md-7">Data refresh period:</div>
+          <div class="col-md-3">
+            <select scope-value="refreshPeriod">
+              <option value="1">1 second</option>
+              <option value="5">5 seconds</option>
+              <option value="10">10 seconds</option>
+              <option value="30">30 seconds</option>
+            </select>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3>Symbols</h3>
+      <ul class="rates-rows">
+        <li scope-repeat="symbol in preDefinedSymbols" add-symbols="">
+          <div class="col-md-8 rate-label pair-title" scope-text="symbol.id"></div>
+          <div class="col-md-3">
+            <button class="btn btn-primary" on-click="$parent.addRate(symbol.pairs[0], symbol.pairs[1])">Add</button>
+          </div>
+        </li>
+        <li add-symbols="symbols">
+          <div class="col-md-8 rate-label">
+            <select scope-value="symbol1">
+              <option class="pair-title" scope-repeat="code in currencies" scope-value="code" scope-text="code"></option>
+            </select>
+            /
+            <select scope-value="symbol2">
+              <option class="pair-title" scope-repeat="code in currencies" scope-value="code" scope-text="code"></option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-primary" on-click="addRate(symbol1, symbol2)">Add</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h3>Rates</h3>
+    <ul class="rates-rows">
+      <li class="head">
+        <div class="col-md-4">Symbol</div>
+        <div class="col-md-4">Price</div>
+      </li>
+      <li scope-repeat="rate in rates">
+        <div class="col-md-4 rate-label pair-title" scope-text="rate.id"></div>
+        <div class="col-md-4 rate-label">1.16</div>
+        <div class="col-md-4">
+          <button class="btn btn-primary" on-click="$parent.removeRate(rate.id)">Remove</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
